@@ -2,6 +2,8 @@ import Head from 'next/head'
 import dynamic from 'next/dynamic'
 
 const Connect = dynamic(async()=>await import('../components/Connect'), {ssr: false})
+const SwitchNetwork = dynamic(async()=>await import('../components/SwitchNetwork'), {ssr: false})
+const Approve = dynamic(async()=>await import('../components/Approve'), {ssr: false})
 
 export default function Home() {
   return (
@@ -14,6 +16,8 @@ export default function Home() {
       </Head>
       <main>
         <Connect/>
+        <SwitchNetwork/>
+        <Approve/>
       </main>
     </>
   )

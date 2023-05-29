@@ -1,15 +1,17 @@
 import '@/styles/globals.css'
 import type { AppProps } from 'next/app'
-import { createConfig, configureChains, mainnet } from 'wagmi'
+import { createConfig, configureChains } from 'wagmi'
+import { mainnet, polygon } from 'viem/chains'
 import { publicProvider } from 'wagmi/providers/public'
 import { InjectedConnector } from 'wagmi/connectors/injected'
 import { CoinbaseWalletConnector } from 'wagmi/connectors/coinbaseWallet'
 import { WalletConnectConnector } from 'wagmi/connectors/walletConnect'
 import { WagmiConfig } from 'wagmi'
 
-const { chains, publicClient } = configureChains([mainnet], [publicProvider()])
+const { chains, publicClient } = configureChains([mainnet, polygon], [publicProvider()])
  
 const config = createConfig({
+  autoConnect:true,
   connectors: [
     new InjectedConnector({ chains }),
     new CoinbaseWalletConnector({
