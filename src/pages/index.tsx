@@ -17,7 +17,7 @@ export default function Home() {
       <main>
         <Connect/>
         <SwitchNetwork/>
-        <Approve/>
+        {/* <Approve/> */}
       </main>
     </>
   )
