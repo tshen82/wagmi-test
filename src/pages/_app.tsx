@@ -4,33 +4,41 @@ import { createConfig, configureChains } from 'wagmi'
 import { mainnet } from 'viem/chains'
 import { publicProvider } from 'wagmi/providers/public'
 import { InjectedConnector } from 'wagmi/connectors/injected'
-import { CoinbaseWalletConnector } from 'wagmi/connectors/coinbaseWallet'
+import { MetaMaskConnector } from "wagmi/connectors/metaMask"
 import { WalletConnectConnector } from 'wagmi/connectors/walletConnect'
 import { WagmiConfig } from 'wagmi'
 
 const { chains, publicClient } = configureChains([mainnet], [publicProvider()])
- 
+
 const config = createConfig({
   autoConnect:true,
   connectors: [
-    new InjectedConnector({ chains }),
-    new CoinbaseWalletConnector({
+    new InjectedConnector({ chains, options:{
+      name: "trustwallet",
+      shimDisconnect: true,
+      getProvider: () =>
+      //@ts-ignore
+        typeof window !== "undefined" ? window.trustwallet : undefined
+    }
+    }),
+    new MetaMaskConnector({
       chains,
       options: {
-        appName: 'wagmi.sh',
-      },
+        UNSTABLE_shimOnConnectSelectAccount: true,
+        shimDisconnect: true
+      }
     }),
     new WalletConnectConnector({
       chains,
       options: {
-        projectId: process.env.NEXT_PUBLIC_PROJECT_ID as string,
+        projectId: "2a42e5f44eaac002e60ba61a895028f6",
         metadata: {
-          name: 'wagmi',
-          description: 'my wagmi app',
-          url: 'https://wagmi.sh',
-          icons: ['https://wagmi.sh/icon.png'],
-        },
-      },
+          name: "Seedify",
+          description: "Seedworld is a UGC based Gaming Metaverse.",
+          url: typeof document != 'undefined' ? document.URL : '',
+          icons: ["https://seedworld.io/favicon.ico"]
+        }
+      }
     })
     
   ],
