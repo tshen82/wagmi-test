@@ -5,6 +5,7 @@ import { goerli } from 'viem/chains'
 import { publicProvider } from 'wagmi/providers/public'
 import { InjectedConnector } from 'wagmi/connectors/injected'
 import { MetaMaskConnector } from "wagmi/connectors/metaMask"
+import { CoinbaseWalletConnector } from 'wagmi/connectors/coinbaseWallet'
 import { WagmiConfig } from 'wagmi'
 
 const { chains, publicClient } = configureChains([goerli], [publicProvider()])
@@ -21,6 +22,13 @@ const config = createConfig({
     }
     }),
     new MetaMaskConnector({
+      chains,
+      options: {
+        UNSTABLE_shimOnConnectSelectAccount: true,
+        shimDisconnect: true
+      }
+    }),
+    new CoinbaseWalletConnector({
       chains,
       options: {
         UNSTABLE_shimOnConnectSelectAccount: true,
